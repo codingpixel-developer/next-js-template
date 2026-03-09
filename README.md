@@ -1,36 +1,482 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Next.js Production-Ready Template
+
+A complete, production-ready Next.js template with authentication, form validation, theming, and scalable architecture.
+
+## Features
+
+- **Next.js 16** with App Router
+- **React 19** with latest features
+- **TypeScript** for type safety
+- **Tailwind CSS v4** for styling
+- **SCSS/Sass** support with mixins and variables
+- **Redux Toolkit** for state management
+- **next-themes** for dark/light mode
+- **Formik + Yup** for form handling and validation
+- **Axios** with token refresh and request queue
+- **Authentication** with middleware protection
+- **Route groups** for organized code structure
+
+## Project Structure
+
+```
+app/
+├── (pages)/
+│   ├── (auth)/             # Auth route group (login, register, etc.)
+│   │   ├── login/
+│   │   └── layout.tsx
+│   └── (dashboard)/        # Protected route group
+│       ├── dashboard/
+│       └── layout.tsx
+├── _shared/                # Shared code (components, lib, hooks)
+│   ├── components/
+│   │   ├── ui/             # Reusable UI components (button, input, themeToggle)
+│   │   ├── forms/          # Form-specific components
+│   │   └── providers/      # StoreProvider, ThemeProvider
+│   └── lib/
+│       ├── api/            # Axios configuration with token refresh
+│       ├── config/         # Route configuration (ROUTES constants)
+│       ├── hooks/          # Custom React hooks (useAuth, useTheme, useRedux)
+│       ├── store/          # Redux store and slices
+│       ├── utils/          # Utility functions (storage, assets)
+│       ├── validations/    # Yup validation schemas
+│       └── types/          # TypeScript types
+├── api/                    # API routes
+├── layout.tsx              # Root layout
+├── page.tsx                # Landing page
+├── globals.css             # Global styles with CSS variables
+├── error.tsx               # Error boundary
+├── loading.tsx             # Loading UI
+└── not-found.tsx           # 404 page
+
+public/
+├── icons/                  # SVG icons with index.ts export
+├── images/                 # Images with index.ts export
+└── fonts/                  # Fonts with index.ts export
+
+styles/
+├── _variables.scss         # SCSS variables
+├── _mixins.scss            # SCSS mixins
+└── globals.scss            # SCSS entry point
+
+middleware.ts               # Next.js middleware for auth
+```
 
 ## Getting Started
 
-First, run the development server:
+### 1. Clone and Install
+
+```bash
+git clone <repository-url>
+cd template
+npm install
+```
+
+### 2. Environment Setup
+
+Copy the example environment file:
+
+```bash
+cp .env.local.example .env.local
+```
+
+Update the values in `.env.local`:
+
+```env
+NEXT_PUBLIC_API_BASE_URL=http://localhost:3000/api
+NEXT_PUBLIC_APP_NAME=Next.js Template
+NEXT_PUBLIC_APP_URL=http://localhost:3000
+```
+
+### 3. Run Development Server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 4. Build for Production
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+npm start
+```
 
-## Learn More
+## Authentication
 
-To learn more about Next.js, take a look at the following resources:
+The template includes a complete authentication system:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Route Configuration
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+All routes are defined in `app/_shared/lib/config/routes.ts`. **Never hardcode route strings** - always use the `ROUTES` constant:
 
-## Deploy on Vercel
+```typescript
+import { ROUTES } from '@/app/_shared/lib/config/routes';
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+// Use ROUTES constant for navigation
+router.push(ROUTES.DASHBOARD);
+redirect(ROUTES.LOGIN);
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Protected Routes
+
+Add routes to `PROTECTED_ROUTES` in `app/_shared/lib/config/routes.ts`:
+
+```typescript
+export const PROTECTED_ROUTES = [
+  ROUTES.DASHBOARD,
+  ROUTES.PROFILE,
+  ROUTES.SETTINGS,
+];
+```
+
+### Public Routes
+
+Add routes that don't require authentication to `PUBLIC_ROUTES`:
+
+```typescript
+export const PUBLIC_ROUTES = [
+  ROUTES.HOME,
+  ROUTES.LOGIN,
+  ROUTES.REGISTER,
+];
+```
+
+### Auth Hooks
+
+Use the `useAuth` hook for authentication operations:
+
+```typescript
+import { useAuth } from '@/app/_shared/lib/hooks/useAuth';
+
+function MyComponent() {
+  const { isLoggedIn, user, login, logout } = useAuth();
+
+  // ...
+}
+```
+
+## Form Validation
+
+The template uses Formik + Yup for form handling:
+
+```typescript
+import { useFormik } from 'formik';
+import { loginSchema } from '@/app/_shared/lib/validations/schemas';
+
+const formik = useFormik({
+  initialValues: {
+    email: '',
+    password: '',
+  },
+  validationSchema: loginSchema,
+  onSubmit: async (values) => {
+    // Handle form submission
+  },
+});
+```
+
+### Available Schemas
+
+- `loginSchema` - Email and password validation
+- `registerSchema` - Registration form validation
+- `forgotPasswordSchema` - Forgot password validation
+- `resetPasswordSchema` - Reset password validation
+- `profileSchema` - Profile update validation
+- `changePasswordSchema` - Change password validation
+- `contactSchema` - Contact form validation
+
+## Theming
+
+The template includes dark/light mode support via `next-themes`:
+
+### Theme Toggle
+
+```typescript
+import { ThemeToggle } from '@/app/_shared/components/ui/themeToggle/themeToggle';
+
+function Header() {
+  return (
+    <header>
+      <ThemeToggle />
+    </header>
+  );
+}
+```
+
+### Custom Theme Hook
+
+```typescript
+import { useTheme } from '@/app/_shared/lib/hooks/useTheme';
+
+function MyComponent() {
+  const { theme, toggleTheme, isDark } = useTheme();
+  // ...
+}
+```
+
+### CSS Custom Properties
+
+Theme colors are defined in `app/globals.css`:
+
+```css
+:root {
+  --color-primary-500: #3b82f6;
+  --color-bg-primary: #ffffff;
+  --color-text-primary: #111827;
+  /* ... */
+}
+
+.dark {
+  --color-bg-primary: #111827;
+  --color-text-primary: #f9fafb;
+  /* ... */
+}
+```
+
+## API Configuration
+
+Axios is configured with automatic token refresh:
+
+```typescript
+import axiosInstance from '@/app/_shared/lib/api/axios';
+import { apiClient } from '@/app/_shared/lib/api/axios';
+
+// Using the axios instance
+const response = await axiosInstance.get('/users');
+
+// Using the API client methods
+const users = await apiClient.get('/users');
+const user = await apiClient.post('/users', { name: 'John' });
+```
+
+### Token Refresh
+
+The axios instance automatically:
+- Adds auth tokens to requests
+- Refreshes expired tokens
+- Queues requests during token refresh
+- Redirects to login on refresh failure
+
+## State Management
+
+Redux Toolkit is configured for global state:
+
+```typescript
+import { useAppDispatch, useAppSelector } from '@/app/_shared/lib/hooks/useRedux';
+import { login, logout } from '@/app/_shared/lib/store/slices/authSlice';
+
+function MyComponent() {
+  const dispatch = useAppDispatch();
+  const auth = useAppSelector((state) => state.auth);
+  const user = useAppSelector((state) => state.user.user);
+
+  // ...
+}
+```
+
+## UI Components
+
+**Naming Convention:** All component folders and files use **camelCase** (e.g., `button/button.tsx`, `themeToggle/themeToggle.tsx`).
+
+### Button
+
+```typescript
+import { Button } from '@/app/_shared/components/ui/button/button';
+
+<Button variant="primary" size="md" onClick={handleClick}>
+  Click me
+</Button>
+```
+
+Props:
+- `variant`: 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger'
+- `size`: 'sm' | 'md' | 'lg'
+- `isLoading`: boolean
+- `fullWidth`: boolean
+
+### Input
+
+```typescript
+import { Input } from '@/app/_shared/components/ui/input/input';
+
+<Input
+  label="Email"
+  type="email"
+  placeholder="Enter your email"
+  error={errorMessage}
+  helpText="We'll never share your email"
+/>
+```
+
+Props:
+- `label`: string
+- `error`: string
+- `helpText`: string
+- `size`: 'sm' | 'md' | 'lg'
+- `leftIcon`: React.ReactNode
+- `rightIcon`: React.ReactNode
+
+## Asset Management
+
+All static assets (images, icons, fonts) must be exported through their respective `index.ts` files in the `public/` folder.
+
+### Adding Assets
+
+1. Place the asset file in the appropriate folder (`icons/`, `images/`, or `fonts/`)
+2. Export the path in the corresponding `index.ts` file
+3. Import from the index file in your components
+
+```typescript
+// public/images/index.ts
+export const images = {
+  heroBanner: '/images/hero-banner.jpg',
+  userAvatar: '/images/user-avatar.png',
+} as const;
+
+// Usage in component
+import { images } from '@/public/images';
+import Image from 'next/image';
+
+<Image src={images.heroBanner} alt="Hero" width={800} height={400} />
+```
+
+### Using Next.js Image
+
+**Always use the Next.js `Image` component** for displaying images. Never use the native `<img>` tag.
+
+```typescript
+// ❌ Don't use native img tag
+<img src="/images/hero.jpg" alt="Hero" />
+
+// ✅ Use Next.js Image
+import Image from 'next/image';
+import { images } from '@/public/images';
+
+<Image src={images.heroBanner} alt="Hero" width={800} height={400} priority />
+```
+
+## Code Quality Standards
+
+### Component Size Limit
+
+Component files must **never exceed 300-350 lines** of code. If a component grows beyond this limit:
+- Extract sub-components into separate files
+- Move logic to custom hooks in `app/_shared/lib/hooks/`
+- Split large forms into field components
+
+```
+✅ Good structure:
+app/_shared/components/forms/loginForm/
+├── loginForm.tsx        # Main component (80 lines)
+├── emailField.tsx       # Sub-component (40 lines)
+├── passwordField.tsx    # Sub-component (45 lines)
+└── useLoginForm.ts      # Custom hook (60 lines)
+```
+
+## SCSS Support
+
+The template includes SCSS with mixins and variables:
+
+```scss
+// In your component styles
+.my-component {
+  @include flex-center;
+  @include container;
+
+  padding: var(--spacing-md);
+  background: var(--color-bg-secondary);
+}
+```
+
+### Available Mixins
+
+- `flex-center` - Center with flexbox
+- `flex-between` - Space between with flexbox
+- `absolute-center` - Absolute positioning center
+- `text-truncate` - Truncate text with ellipsis
+- `sr-only` - Screen reader only content
+- `custom-scrollbar` - Custom styled scrollbar
+
+## Path Aliases
+
+The `@/*` alias maps to the project root. Common import patterns:
+
+```typescript
+// Shared utilities
+import { useAuth } from '@/app/_shared/lib/hooks/useAuth';
+import { ROUTES } from '@/app/_shared/lib/config/routes';
+
+// Components
+import { Button } from '@/app/_shared/components/ui/button/button';
+
+// Assets
+import { images } from '@/public/images';
+import { icons } from '@/public/icons';
+```
+
+## Deployment
+
+### Vercel (Recommended)
+
+```bash
+npm i -g vercel
+vercel
+```
+
+### Docker
+
+```dockerfile
+FROM node:20-alpine AS base
+
+# Install dependencies
+FROM base AS deps
+RUN apk add --no-cache libc6-compat
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci
+
+# Build
+FROM base AS builder
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .
+RUN npm run build
+
+# Production
+FROM base AS runner
+WORKDIR /app
+ENV NODE_ENV production
+COPY --from=builder /app/public ./public
+COPY --from=builder /app/.next/standalone ./
+COPY --from=builder /app/.next/static ./.next/static
+EXPOSE 3000
+ENV PORT 3000
+CMD ["node", "server.js"]
+```
+
+Build and run:
+
+```bash
+docker build -t nextjs-template .
+docker run -p 3000:3000 nextjs-template
+```
+
+## Scripts
+
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run start` - Start production server
+- `npm run lint` - Run ESLint
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Commit your changes
+4. Push to the branch
+5. Create a Pull Request
+
+## License
+
+MIT License - feel free to use this template for any project.
