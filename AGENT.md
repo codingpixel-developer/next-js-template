@@ -29,7 +29,7 @@ This is a **Next.js 16 App Router** production template with authentication, Red
 - **Redux Toolkit** with redux-persist for auth/user state
 - **next-themes** for dark/light mode switching
 - **Formik + Yup** for form handling and validation
-- **Axios** with automatic token refresh and request queuing
+- **Axios** with token refresh and request queuing
 
 ### Project Structure
 
@@ -53,6 +53,7 @@ app/
 │   │   │   ├── dropdown/
 │   │   │   ├── fileUpload/
 │   │   │   ├── input/
+│   │   │   ├── modal/
 │   │   │   ├── noContentCard/
 │   │   │   ├── pagination/
 │   │   │   ├── phoneInput/
@@ -150,6 +151,7 @@ All UI components are located in `app/_shared/components/ui/` and follow these p
 
 #### Layout & Navigation
 - **Accordion** - Collapsible content panels with single/multiple expand modes
+- **Modal** - Dialog boxes with optional header (back, title, close), content, and footer
 - **Tabs** - Tabbed interface with animated content switching
 - **Pagination** - Page navigation with configurable visible pages
 
@@ -184,6 +186,35 @@ import { Accordion } from '@/app/_shared/components/ui/accordion/accordion';
     <Accordion.Content>Content 1</Accordion.Content>
   </Accordion.Item>
 </Accordion>
+
+// Modal
+import { Modal } from '@/app/_shared/components/ui/modal/modal';
+import { Button } from '@/app/_shared/components/ui/button/button';
+
+const [isOpen, setIsOpen] = useState(false);
+
+<Modal isOpen={isOpen} onClose={() => setIsOpen(false)} size="md">
+  <Modal.Header
+    title="Modal Title"
+    showBack={false}
+    showClose={true}
+    onClose={() => setIsOpen(false)}
+  />
+  <Modal.Content>
+    <p>Modal content goes here...</p>
+  </Modal.Content>
+  <Modal.Footer>
+    <Button variant="outline" onClick={() => setIsOpen(false)}>Cancel</Button>
+    <Button onClick={handleConfirm}>Confirm</Button>
+  </Modal.Footer>
+</Modal>
+
+// Simple modal without header/footer
+<Modal isOpen={isOpen} onClose={() => setIsOpen(false)} size="sm">
+  <Modal.Content>
+    <p>Simple modal content only...</p>
+  </Modal.Content>
+</Modal>
 
 // Alert
 import { Alert } from '@/app/_shared/components/ui/alert/alert';

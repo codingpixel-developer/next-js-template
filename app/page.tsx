@@ -20,6 +20,7 @@ import { Tooltip } from '@/app/_shared/components/ui/tooltip/tooltip';
 import { NoContentCard } from '@/app/_shared/components/ui/noContentCard/noContentCard';
 import { Spinner } from '@/app/_shared/components/ui/spinner/spinner';
 import { ToastProvider, useToast } from '@/app/_shared/components/ui/toast/toast';
+import { Modal } from '@/app/_shared/components/ui/modal/modal';
 
 function ComponentShowcase() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -27,6 +28,8 @@ function ComponentShowcase() {
   const [toggleChecked, setToggleChecked] = useState(false);
   const [checkboxChecked, setCheckboxChecked] = useState(false);
   const [activeTab, setActiveTab] = useState('overview');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isSimpleModalOpen, setIsSimpleModalOpen] = useState(false);
   const { addToast } = useToast();
 
   const showToast = (variant: 'info' | 'success' | 'warning' | 'error') => {
@@ -349,6 +352,50 @@ function ComponentShowcase() {
                 }
               />
             </div>
+          </section>
+
+          {/* Modal Section */}
+          <section className="p-6 rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-secondary)]">
+            <h3 className="text-xl font-semibold text-[var(--color-text-primary)] mb-6">Modal / Dialog</h3>
+            <div className="flex flex-wrap gap-4 mb-6">
+              <Button variant="primary" onClick={() => setIsModalOpen(true)}>
+                Open Full Modal
+              </Button>
+              <Button variant="outline" onClick={() => setIsSimpleModalOpen(true)}>
+                Open Simple Modal
+              </Button>
+            </div>
+            <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} size="md">
+              <Modal.Header
+                title="Confirm Action"
+                showBack={false}
+                showClose={true}
+                onClose={() => setIsModalOpen(false)}
+              />
+              <Modal.Content>
+                <p className="text-[var(--color-text-secondary)]">
+                  Are you sure you want to proceed? This cannot be undone.
+                </p>
+              </Modal.Content>
+              <Modal.Footer>
+                <Button variant="outline" onClick={() => setIsModalOpen(false)}>Cancel</Button>
+                <Button onClick={() => { setIsModalOpen(false); showToast('success'); }}>Confirm</Button>
+              </Modal.Footer>
+            </Modal>
+            <Modal isOpen={isSimpleModalOpen} onClose={() => setIsSimpleModalOpen(false)} size="sm">
+              <Modal.Content>
+                <div className="text-center">
+                  <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-[var(--color-primary-100)] text-[var(--color-primary-600)] flex items-center justify-center">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M5 13L9 17L19 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </div>
+                  <h4 className="font-semibold text-[var(--color-text-primary)] mb-2">Success!</h4>
+                  <p className="text-sm text-[var(--color-text-secondary)] mb-4">Your action was completed successfully.</p>
+                  <Button variant="outline" size="sm" onClick={() => setIsSimpleModalOpen(false)}>Close</Button>
+                </div>
+              </Modal.Content>
+            </Modal>
           </section>
 
           {/* Toast Notifications Section */}
