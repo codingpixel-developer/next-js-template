@@ -29,7 +29,7 @@ This is a **Next.js 16 App Router** production template with authentication, Red
 - **Redux Toolkit** with redux-persist for auth/user state
 - **next-themes** for dark/light mode switching
 - **Formik + Yup** for form handling and validation
-- **Axios** with automatic token refresh and request queuing
+- **Axios** with token refresh and request queuing
 
 ### Project Structure
 
@@ -44,13 +44,32 @@ app/
 │       └── layout.tsx
 ├── _shared/              # Shared code (components, lib, hooks)
 │   ├── components/
-│   │   ├── ui/           # Reusable UI (Button, Input, ThemeToggle)
+│   │   ├── ui/           # Reusable UI components
+│   │   │   ├── accordion/
+│   │   │   ├── alert/
+│   │   │   ├── badge/
+│   │   │   ├── button/
+│   │   │   ├── checkbox/
+│   │   │   ├── dropdown/
+│   │   │   ├── fileUpload/
+│   │   │   ├── input/
+│   │   │   ├── modal/
+│   │   │   ├── noContentCard/
+│   │   │   ├── pagination/
+│   │   │   ├── phoneInput/
+│   │   │   ├── spinner/
+│   │   │   ├── tabs/
+│   │   │   ├── textArea/
+│   │   │   ├── themeToggle/
+│   │   │   ├── toast/
+│   │   │   ├── toggleSwitch/
+│   │   │   └── tooltip/
 │   │   ├── forms/        # Form-specific components
-│   │   └── providers/    # StoreProvider, ThemeProvider
+│   │   └── providers/    # StoreProvider, ThemeProvider, ToastProvider
 │   └── lib/
 │       ├── api/          # Axios instance with token refresh + request queue
 │       ├── config/       # Route configuration (PUBLIC_ROUTES, etc.)
-│       ├── hooks/        # useAuth, useTheme, useRedux
+│       ├── hooks/        # useAuth, useTheme, useRedux, useToast
 │       ├── store/        # Redux slices (auth, user), store.ts with persist
 │       ├── types/        # TypeScript types
 │       ├── utils/        # storage.ts (cookie utilities), assets.ts
@@ -67,7 +86,7 @@ styles/
 ├── _mixins.scss          # SCSS mixins
 └── globals.scss          # SCSS entry point
 
-middleware.ts             # Auth protection + redirects
+proxy.ts                  # Auth protection + redirects (Next.js 16)
 ```
 
 ### Path Aliases
@@ -84,7 +103,7 @@ The `@/*` path alias maps to the project root.
 
 ### Authentication Architecture
 
-**Middleware (`middleware.ts`)**: Checks `token` cookie, redirects unauthenticated users from protected routes, redirects authenticated users away from auth routes.
+**Proxy (`proxy.ts`)**: Checks `token` cookie, redirects unauthenticated users from protected routes, redirects authenticated users away from auth routes.
 
 **Axios Interceptor (`app/_shared/lib/api/axios.ts`)**:
 - Adds Bearer token from cookies to requests
@@ -118,6 +137,188 @@ Use with Formik: `validationSchema: loginSchema`.
 - `useAuth()` - Authentication state and operations
 - `useTheme()` - Theme toggle and current theme
 - `useRedux()` - Typed Redux hooks (`useAppDispatch`, `useAppSelector`)
+- `useToast()` - Toast notifications (requires ToastProvider)
+
+## UI Components
+
+All UI components are located in `app/_shared/components/ui/` and follow these patterns:
+- **camelCase** folder and file names (e.g., `button/button.tsx`)
+- **SCSS modules** with CSS custom properties for theming
+- **TypeScript** interfaces for type safety
+- **Dark mode support** via `.dark` class and CSS variables
+
+### Available Components
+
+#### Layout & Navigation
+- **Accordion** - Collapsible content panels with single/multiple expand modes
+- **Modal** - Dialog boxes with optional header (back, title, close), content, and footer
+- **Tabs** - Tabbed interface with animated content switching
+- **Pagination** - Page navigation with configurable visible pages
+
+#### Forms & Inputs
+- **Button** - Multi-variant button with loading state
+- **Input** - Text input with icons, error states, and helper text
+- **TextArea** - Multi-line text input with character count
+- **Checkbox** - Checkbox with indeterminate state support
+- **ToggleSwitch** - On/off toggle switch
+- **PhoneInput** - International phone number input (uses react-phone-number-input)
+- **FileUpload** - Drag & drop file upload with preview
+
+#### Feedback & Display
+- **Alert** - Contextual feedback messages (info, success, warning, error)
+- **Badge** - Status indicators and counters
+- **Tooltip** - Hover information popups
+- **Spinner** - Loading indicators
+- **NoContentCard** - Empty state placeholder
+- **Toast** - Notification system with ToastProvider
+
+#### Overlays
+- **Dropdown** - Context menus and dropdowns
+
+### Component Usage Examples
+
+```typescript
+// Accordion
+import { Accordion } from '@/app/_shared/components/ui/accordion/accordion';
+<Accordion defaultExpanded={['item-1']} allowMultiple>
+  <Accordion.Item id="item-1">
+    <Accordion.Trigger>Section 1</Accordion.Trigger>
+    <Accordion.Content>Content 1</Accordion.Content>
+  </Accordion.Item>
+</Accordion>
+
+// Modal
+import { Modal } from '@/app/_shared/components/ui/modal/modal';
+import { Button } from '@/app/_shared/components/ui/button/button';
+
+const [isOpen, setIsOpen] = useState(false);
+
+<Modal isOpen={isOpen} onClose={() => setIsOpen(false)} size="md">
+  <Modal.Header
+    title="Modal Title"
+    showBack={false}
+    showClose={true}
+    onClose={() => setIsOpen(false)}
+  />
+  <Modal.Content>
+    <p>Modal content goes here...</p>
+  </Modal.Content>
+  <Modal.Footer>
+    <Button variant="outline" onClick={() => setIsOpen(false)}>Cancel</Button>
+    <Button onClick={handleConfirm}>Confirm</Button>
+  </Modal.Footer>
+</Modal>
+
+// Simple modal without header/footer
+<Modal isOpen={isOpen} onClose={() => setIsOpen(false)} size="sm">
+  <Modal.Content>
+    <p>Simple modal content only...</p>
+  </Modal.Content>
+</Modal>
+
+// Alert
+import { Alert } from '@/app/_shared/components/ui/alert/alert';
+<Alert variant="success" title="Success" onClose={() => {}}>
+  Operation completed successfully
+</Alert>
+
+// Badge
+import { Badge } from '@/app/_shared/components/ui/badge/badge';
+<Badge variant="primary" pill>New</Badge>
+
+// Checkbox
+import { Checkbox } from '@/app/_shared/components/ui/checkbox/checkbox';
+<Checkbox label="Accept terms" checked={checked} onChange={handleChange} />
+
+// Dropdown
+import { Dropdown } from '@/app/_shared/components/ui/dropdown/dropdown';
+<Dropdown trigger={<Button>Menu</Button>}>
+  <Dropdown.Item onClick={action}>Action</Dropdown.Item>
+  <Dropdown.Divider />
+  <Dropdown.Item destructive onClick={deleteAction}>Delete</Dropdown.Item>
+</Dropdown>
+
+// FileUpload
+import { FileUpload } from '@/app/_shared/components/ui/fileUpload/fileUpload';
+<FileUpload
+  multiple
+  maxFiles={5}
+  maxSize={5 * 1024 * 1024}
+  accept="image/*,.pdf"
+  onFilesChange={(files) => console.log(files)}
+/>
+
+// Pagination
+import { Pagination } from '@/app/_shared/components/ui/pagination/pagination';
+<Pagination
+  currentPage={1}
+  totalPages={10}
+  onPageChange={(page) => setPage(page)}
+/>
+
+// PhoneInput
+import { PhoneInput } from '@/app/_shared/components/ui/phoneInput/phoneInput';
+<PhoneInput
+  value={phone}
+  onChange={setPhone}
+  defaultCountry="US"
+  label="Phone Number"
+/>
+
+// Tabs
+import { Tabs } from '@/app/_shared/components/ui/tabs/tabs';
+<Tabs defaultTab="tab1">
+  <Tabs.List>
+    <Tabs.Tab id="tab1">Tab 1</Tabs.Tab>
+    <Tabs.Tab id="tab2">Tab 2</Tabs.Tab>
+  </Tabs.List>
+  <Tabs.Panel id="tab1">Content 1</Tabs.Panel>
+  <Tabs.Panel id="tab2">Content 2</Tabs.Panel>
+</Tabs>
+
+// TextArea
+import { TextArea } from '@/app/_shared/components/ui/textArea/textArea';
+<TextArea
+  label="Description"
+  rows={6}
+  maxLength={500}
+  showCount
+  resize="vertical"
+/>
+
+// ToggleSwitch
+import { ToggleSwitch } from '@/app/_shared/components/ui/toggleSwitch/toggleSwitch';
+<ToggleSwitch
+  label="Enable notifications"
+  checked={enabled}
+  onChange={(e) => setEnabled(e.target.checked)}
+/>
+
+// Tooltip
+import { Tooltip } from '@/app/_shared/components/ui/tooltip/tooltip';
+<Tooltip content="More information" position="top">
+  <span>Hover me</span>
+</Tooltip>
+
+// NoContentCard
+import { NoContentCard } from '@/app/_shared/components/ui/noContentCard/noContentCard';
+<NoContentCard
+  title="No items found"
+  description="Try adjusting your filters"
+  action={<Button>Create Item</Button>}
+/>
+
+// Spinner
+import { Spinner } from '@/app/_shared/components/ui/spinner/spinner';
+<Spinner size="md" variant="primary" />
+
+// Toast (requires ToastProvider in layout)
+import { ToastProvider, useToast } from '@/app/_shared/components/ui/toast/toast';
+// In layout: <ToastProvider position="top-right"><App /></ToastProvider>
+// In component:
+const { addToast } = useToast();
+addToast({ title: 'Success', description: 'Item saved', variant: 'success' });
+```
 
 ### Next.js Configuration (`next.config.ts`)
 

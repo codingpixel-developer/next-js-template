@@ -58,7 +58,7 @@ styles/
 ├── _mixins.scss            # SCSS mixins
 └── globals.scss            # SCSS entry point
 
-middleware.ts               # Next.js middleware for auth
+proxy.ts                    # Next.js proxy for auth (replaces middleware in v16)
 ```
 
 ## Getting Started

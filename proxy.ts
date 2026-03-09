@@ -2,8 +2,8 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { isProtectedRoute, isAuthRoute } from "@/app/_shared/lib/config/routes";
 
-// This middleware handles authentication and route protection
-export function middleware(request: NextRequest) {
+// This proxy handles authentication and route protection
+export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // Get the token from cookies
