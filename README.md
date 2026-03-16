@@ -27,7 +27,11 @@ app/
 │   └── (dashboard)/        # Protected route group
 │       ├── dashboard/
 │       └── layout.tsx
-├── _shared/                # Shared code (components, lib, hooks)
+├── _shared/                # Shared code (components, lib, hooks, assets)
+│   ├── assets/
+│   │   ├── icons/          # SVG icons with index.ts export
+│   │   ├── images/         # Images with index.ts export
+│   │   └── fonts/          # Fonts with index.ts export
 │   ├── components/
 │   │   ├── ui/             # Reusable UI components (button, input, themeToggle)
 │   │   ├── forms/          # Form-specific components
@@ -49,9 +53,7 @@ app/
 └── not-found.tsx           # 404 page
 
 public/
-├── icons/                  # SVG icons with index.ts export
-├── images/                 # Images with index.ts export
-└── fonts/                  # Fonts with index.ts export
+└── favicon.ico             # Root-served static files (favicon, robots.txt, etc.)
 
 styles/
 ├── _variables.scss         # SCSS variables
@@ -319,23 +321,23 @@ Props:
 
 ## Asset Management
 
-All static assets (images, icons, fonts) must be exported through their respective `index.ts` files in the `public/` folder.
+All static assets (images, icons, fonts) live in `app/_shared/assets/` and must be exported through their respective `index.ts` files before use. The `public/` folder is reserved only for root-served files such as `favicon.ico` and `robots.txt`.
 
 ### Adding Assets
 
-1. Place the asset file in the appropriate folder (`icons/`, `images/`, or `fonts/`)
+1. Place the asset file in the appropriate folder under `app/_shared/assets/` (`icons/`, `images/`, or `fonts/`)
 2. Export the path in the corresponding `index.ts` file
 3. Import from the index file in your components
 
 ```typescript
-// public/images/index.ts
+// app/_shared/assets/images/index.ts
 export const images = {
   heroBanner: '/images/hero-banner.jpg',
   userAvatar: '/images/user-avatar.png',
 } as const;
 
 // Usage in component
-import { images } from '@/public/images';
+import { images } from '@/app/_shared/assets/images';
 import Image from 'next/image';
 
 <Image src={images.heroBanner} alt="Hero" width={800} height={400} />
@@ -349,9 +351,12 @@ import Image from 'next/image';
 // ❌ Don't use native img tag
 <img src="/images/hero.jpg" alt="Hero" />
 
-// ✅ Use Next.js Image
-import Image from 'next/image';
+// ❌ Don't import from the old public/ location
 import { images } from '@/public/images';
+
+// ✅ Use Next.js Image with the correct import path
+import Image from 'next/image';
+import { images } from '@/app/_shared/assets/images';
 
 <Image src={images.heroBanner} alt="Hero" width={800} height={400} priority />
 ```
@@ -372,6 +377,22 @@ app/_shared/components/forms/loginForm/
 ├── emailField.tsx       # Sub-component (40 lines)
 ├── passwordField.tsx    # Sub-component (45 lines)
 └── useLoginForm.ts      # Custom hook (60 lines)
+```
+
+### Modals & Dialogs
+
+Every modal or dialog must live in its own dedicated component file. Never inline modal content inside a parent component.
+
+```
+✅ Good structure:
+app/_shared/components/ui/confirmDeleteModal/
+├── confirmDeleteModal.tsx
+└── confirmDeleteModal.module.scss
+
+// Usage in parent
+import { ConfirmDeleteModal } from '@/app/_shared/components/ui/confirmDeleteModal/confirmDeleteModal';
+
+<ConfirmDeleteModal isOpen={isOpen} onClose={() => setIsOpen(false)} onConfirm={handleDelete} />
 ```
 
 ## SCSS Support
@@ -411,8 +432,8 @@ import { ROUTES } from '@/app/_shared/lib/config/routes';
 import { Button } from '@/app/_shared/components/ui/button/button';
 
 // Assets
-import { images } from '@/public/images';
-import { icons } from '@/public/icons';
+import { images } from '@/app/_shared/assets/images';
+import { icons } from '@/app/_shared/assets/icons';
 ```
 
 ## Deployment

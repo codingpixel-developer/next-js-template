@@ -46,8 +46,9 @@ Load the appropriate skill file for your task. Each file is self-contained and f
 ## Critical Rules (always apply, regardless of task)
 
 1. **Routes** — Never hardcode route strings. Always use `ROUTES.*` from `app/_shared/lib/config/routes.ts`.
-2. **Assets** — Never reference `/public` paths directly. Export from `public/*/index.ts` first.
+2. **Assets** — Never reference asset paths directly as strings. All assets (images, icons, fonts) live in `app/_shared/assets/` and must be exported from their `index.ts` before use. The `public/` folder is only for static files served at the root (e.g. `favicon.ico`).
 3. **Images** — Always use `<Image />` from `next/image`. Never use `<img>`.
 4. **Component size** — Files must not exceed 300–350 lines. Split into sub-components or hooks.
 5. **Naming** — All component folders and files use **camelCase** (e.g. `fileUpload/fileUpload.tsx`).
 6. **Imports** — Always use `@/app/_shared/` prefix for shared code. Never use relative `../../` paths.
+7. **Modals & Dialogs** — Always create a dedicated, separate component file for every modal or dialog (e.g. `confirmDeleteModal/confirmDeleteModal.tsx`). Never inline modal or dialog content inside a parent component.

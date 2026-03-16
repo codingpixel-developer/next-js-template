@@ -1,19 +1,21 @@
 # Skill: Asset Management
 
-**Read this when:** adding images, icons, or fonts to the project, displaying images in components, or referencing any file from the `public/` folder.
+**Read this when:** adding images, icons, or fonts to the project, displaying images in components, or referencing any static asset.
 
 ---
 
 ## Rule: All Assets Go Through `index.ts`
 
-**CRITICAL:** Never reference asset paths directly as strings in components. Every asset in `public/` must be exported from its folder's `index.ts` first.
+**CRITICAL:** Never reference asset paths directly as strings in components. Every asset must be exported from its folder's `index.ts` in `app/_shared/assets/` first.
+
+The `public/` folder is **only** for files that must be served at the root URL (e.g. `favicon.ico`, `robots.txt`). Do not place app assets there.
 
 ---
 
 ## Folder Structure
 
 ```
-public/
+app/_shared/assets/
 ├── icons/
 │   ├── index.ts      ← export all icons here
 │   └── *.svg
@@ -23,6 +25,9 @@ public/
 └── fonts/
     ├── index.ts      ← export all fonts here
     └── *.*
+
+public/
+└── favicon.ico       ← root-served static files only
 ```
 
 ---
@@ -32,9 +37,11 @@ public/
 ### Adding an Image
 
 ```typescript
-// Step 1: Place file at public/images/hero-banner.jpg
+// Step 1: Place file at app/_shared/assets/images/hero-banner.jpg
+//         (Next.js serves files from public/ at root, so copy to public/images/ too if needed,
+//          but the index.ts source of truth lives in _shared/assets/)
 
-// Step 2: Add to public/images/index.ts
+// Step 2: Add to app/_shared/assets/images/index.ts
 export const images = {
   heroBanner: '/images/hero-banner.jpg',
   profileAvatar: '/images/profile-avatar.png',
@@ -43,7 +50,7 @@ export const images = {
 
 // Step 3: Use in component
 import Image from 'next/image';
-import { images } from '@/public/images';
+import { images } from '@/app/_shared/assets/images';
 
 <Image src={images.heroBanner} alt="Hero" width={800} height={400} priority />
 ```
@@ -51,9 +58,9 @@ import { images } from '@/public/images';
 ### Adding an Icon
 
 ```typescript
-// Step 1: Place file at public/icons/close.svg
+// Step 1: Place file at app/_shared/assets/icons/close.svg
 
-// Step 2: Add to public/icons/index.ts
+// Step 2: Add to app/_shared/assets/icons/index.ts
 export const icons = {
   close: '/icons/close.svg',
   search: '/icons/search.svg',
@@ -61,7 +68,7 @@ export const icons = {
 } as const;
 
 // Step 3: Use in component
-import { icons } from '@/public/icons';
+import { icons } from '@/app/_shared/assets/icons';
 import Image from 'next/image';
 
 <Image src={icons.close} alt="Close" width={24} height={24} />
@@ -125,10 +132,10 @@ import Image from 'next/image';
 // ❌ Path string directly in Next/Image without index.ts
 <Image src="/images/hero.jpg" alt="Hero" width={800} height={400} />
 
-// ❌ Importing image file directly without index.ts export
-import heroImg from '@/public/images/hero.jpg';
+// ❌ Wrong import path (old public/ location)
+import { images } from '@/public/images';
 
 // ✅ Correct pattern
-import { images } from '@/public/images';
+import { images } from '@/app/_shared/assets/images';
 <Image src={images.hero} alt="Hero" width={800} height={400} />
 ```
