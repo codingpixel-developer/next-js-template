@@ -1,4 +1,4 @@
-# AGENT.md
+# CLAUDE.md
 
 This is the entry point for AI agents working in this repository. Read this file first, then load only the skill file relevant to your current task.
 
@@ -30,16 +30,16 @@ All shared code lives under `app/_shared/`. Use `@/app/_shared/` for all imports
 
 Load the appropriate skill file for your task. Each file is self-contained and focused.
 
-| Task | Skill file |
-|---|---|
-| Understand project structure, add pages, configure Next.js | `.agent/skills/architecture.md` |
-| Use or create UI components (Button, Modal, Input, etc.) | `.agent/skills/components.md` |
-| Apply styles, work with CSS variables, Tailwind, SCSS | `.agent/skills/styling.md` |
-| Implement auth, protect routes, work with tokens/API | `.agent/skills/auth.md` |
-| Add Redux state, create slices, use hooks | `.agent/skills/state.md` |
-| Add images/icons/fonts, use Next.js Image component | `.agent/skills/assets.md` |
-| Follow naming conventions and component size rules | `.agent/skills/code-standards.md` |
-| Navigate between pages, add new routes, update access control | `.agent/skills/routes.md` |
+| Task                                                          | Skill file                        |
+| ------------------------------------------------------------- | --------------------------------- |
+| Understand project structure, add pages, configure Next.js    | `.agent/skills/architecture.md`   |
+| Use or create UI components (Button, Modal, Input, etc.)      | `.agent/skills/components.md`     |
+| Apply styles, work with CSS variables, Tailwind, SCSS         | `.agent/skills/styling.md`        |
+| Implement auth, protect routes, work with tokens/API          | `.agent/skills/auth.md`           |
+| Add Redux state, create slices, use hooks                     | `.agent/skills/state.md`          |
+| Add images/icons/fonts, use Next.js Image component           | `.agent/skills/assets.md`         |
+| Follow naming conventions and component size rules            | `.agent/skills/code-standards.md` |
+| Navigate between pages, add new routes, update access control | `.agent/skills/routes.md`         |
 
 ---
 
