@@ -1,6 +1,9 @@
-# Skill: Route Management
+---
+name: routes
+description: Use when navigating programmatically, linking between pages, adding new routes, updating access control, or working with proxy.ts.
+---
 
-**Read this when:** navigating programmatically, linking between pages, adding new routes, updating access control, or working with `proxy.ts`.
+# Skill: Route Management
 
 ---
 
