@@ -1,6 +1,9 @@
-# Skill: Authentication Architecture
+---
+name: auth
+description: Use when implementing login/logout, protecting routes, working with tokens, modifying the proxy, handling API auth errors, or adding new protected/public pages.
+---
 
-**Read this when:** implementing login/logout, protecting routes, working with tokens, modifying the proxy, handling API auth errors, or adding new protected/public pages.
+# Skill: Authentication Architecture
 
 ---
 
@@ -23,7 +26,7 @@ Runs on every request at the Next.js edge layer.
 - Authenticated user on an auth route (e.g. `/login`) → redirect to `/dashboard`
 - All other cases → pass through
 
-**To change protection rules:** modify `PROTECTED_ROUTES` and `AUTH_ROUTES` in `app/_shared/lib/config/routes.ts` (see `.agent/skills/routes.md`).
+**To change protection rules:** modify `PROTECTED_ROUTES` and `AUTH_ROUTES` in `app/_shared/lib/config/routes.ts` (see `.agent/skills/routes/SKILL.md`).
 
 > Note: This file is named `proxy.ts` (not `middleware.ts`) as per Next.js 16 conventions.
 

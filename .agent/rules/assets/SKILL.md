@@ -1,6 +1,9 @@
-# Skill: Asset Management
+---
+name: assets
+description: Rules for asset management — adding images, icons, and fonts. Never reference asset paths directly; always export from index.ts and use Next.js Image component.
+---
 
-**Read this when:** adding images, icons, or fonts to the project, displaying images in components, or referencing any static asset.
+# Rules: Asset Management
 
 ---
 
@@ -38,8 +41,6 @@ public/
 
 ```typescript
 // Step 1: Place file at app/_shared/assets/images/hero-banner.jpg
-//         (Next.js serves files from public/ at root, so copy to public/images/ too if needed,
-//          but the index.ts source of truth lives in _shared/assets/)
 
 // Step 2: Add to app/_shared/assets/images/index.ts
 export const images = {
