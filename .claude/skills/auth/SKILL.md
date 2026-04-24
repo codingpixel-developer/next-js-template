@@ -26,7 +26,7 @@ Runs on every request at the Next.js edge layer.
 - Authenticated user on an auth route (e.g. `/login`) → redirect to `/dashboard`
 - All other cases → pass through
 
-**To change protection rules:** modify `PROTECTED_ROUTES` and `AUTH_ROUTES` in `app/_shared/lib/config/routes.ts` (see `.agent/skills/routes/SKILL.md`).
+**To change protection rules:** modify `PROTECTED_ROUTES` and `AUTH_ROUTES` in `app/_shared/lib/config/routes.ts` (see `.claude/skills/routes/SKILL.md`).
 
 > Note: This file is named `proxy.ts` (not `middleware.ts`) as per Next.js 16 conventions.
 

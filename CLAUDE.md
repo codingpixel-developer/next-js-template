@@ -32,16 +32,16 @@ Load the appropriate skill file for your task. Each file is self-contained and f
 
 | Task                                                          | Skill file                                              |
 | ------------------------------------------------------------- | ------------------------------------------------------- |
-| Understand project structure, add pages, configure Next.js    | `.agent/skills/architecture/SKILL.md`                   |
-| Use or create UI components (Button, Modal, Input, etc.)      | `.agent/skills/components/SKILL.md`                     |
-| Apply styles, work with CSS variables, Tailwind, SCSS         | `.agent/skills/styling/SKILL.md`                        |
-| Implement auth, protect routes, work with tokens/API          | `.agent/skills/auth/SKILL.md`                           |
-| Add Redux state, create slices, use hooks                     | `.agent/skills/state/SKILL.md`                          |
-| Navigate between pages, add new routes, update access control | `.agent/skills/routes/SKILL.md`                         |
-| Follow naming conventions and component size rules            | `.agent/rules/code-standards/SKILL.md`                  |
-| Add images/icons/fonts, use Next.js Image component           | `.agent/rules/assets/SKILL.md`                          |
-| Generate a multi-stage Dockerfile for this Next.js app        | `.agent/skills/write-dockerfile/SKILL.md`               |
-| Create a GitHub Actions workflow to build + deploy via SSH    | `.agent/skills/github-workflow-docker-deploy/SKILL.md`  |
+| Understand project structure, add pages, configure Next.js    | `.claude/skills/architecture/SKILL.md`                   |
+| Use or create UI components (Button, Modal, Input, etc.)      | `.claude/skills/components/SKILL.md`                     |
+| Apply styles, work with CSS variables, Tailwind, SCSS         | `.claude/skills/styling/SKILL.md`                        |
+| Implement auth, protect routes, work with tokens/API          | `.claude/skills/auth/SKILL.md`                           |
+| Add Redux state, create slices, use hooks                     | `.claude/skills/state/SKILL.md`                          |
+| Navigate between pages, add new routes, update access control | `.claude/skills/routes/SKILL.md`                         |
+| Follow naming conventions and component size rules            | `.claude/rules/code-standards/SKILL.md`                  |
+| Add images/icons/fonts, use Next.js Image component           | `.claude/rules/assets/SKILL.md`                          |
+| Generate a multi-stage Dockerfile for this Next.js app        | `.claude/skills/write-dockerfile/SKILL.md`               |
+| Create a GitHub Actions workflow to build + deploy via SSH    | `.claude/skills/github-workflow-docker-deploy/SKILL.md`  |
 
 ---
 
