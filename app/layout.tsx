@@ -1,38 +1,36 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Kodchasan } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/app/_shared/components/providers/ThemeProvider";
 import { StoreProvider } from "@/app/_shared/components/providers/StoreProvider";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const kodchasan = Kodchasan({
+  variable: "--font-kodchasan",
   subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
   title: {
-    template: "%s | Next.js Template",
-    default: "Next.js Template - Production Ready Starter",
+    template: "%s | SteelAngel",
+    default: "SteelAngel — Ride Freely. They Know You're Safe.",
   },
-  description: "A production-ready Next.js template with authentication, form validation, theming, and scalable architecture.",
-  keywords: ["next.js", "template", "react", "typescript", "tailwindcss"],
-  authors: [{ name: "Next.js Template" }],
+  description:
+    "SteelAngel is a smart motorcycle safety system that helps your loved ones know you're safe, every mile of the way.",
+  keywords: ["motorcycle safety", "crash detection", "steelangel", "ride tracking", "family safety"],
+  authors: [{ name: "SteelAngel" }],
   openGraph: {
     type: "website",
     locale: "en_US",
-    title: "Next.js Template",
-    description: "A production-ready Next.js template with authentication, form validation, theming, and scalable architecture.",
-    siteName: "Next.js Template",
+    title: "SteelAngel",
+    description: "Smart motorcycle safety. Ride freely. They know you're safe.",
+    siteName: "SteelAngel",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Next.js Template",
-    description: "A production-ready Next.js template with authentication, form validation, theming, and scalable architecture.",
+    title: "SteelAngel",
+    description: "Smart motorcycle safety. Ride freely. They know you're safe.",
   },
   robots: {
     index: true,
@@ -54,13 +52,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen`}
-      >
+      <body className={`${kodchasan.variable} antialiased min-h-screen`}>
         <StoreProvider>
-          <ThemeProvider>
-            {children}
-          </ThemeProvider>
+          <ThemeProvider>{children}</ThemeProvider>
         </StoreProvider>
       </body>
     </html>

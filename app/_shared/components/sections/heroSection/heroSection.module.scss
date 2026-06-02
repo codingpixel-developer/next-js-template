@@ -1,0 +1,284 @@
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #14110F;
+  padding-top: 72px; /* navbar height */
+  overflow: hidden;
+}
+
+/* ── Background ── */
+.bgWrapper {
+  position: absolute;
+  inset: 0;
+}
+
+.bgImage {
+  object-fit: cover;
+  object-position: 65% center;
+}
+
+.bgOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    108deg,
+    rgba(12, 9, 8, 0.97) 0%,
+    rgba(12, 9, 8, 0.90) 28%,
+    rgba(12, 9, 8, 0.70) 50%,
+    rgba(12, 9, 8, 0.40) 70%,
+    rgba(12, 9, 8, 0.18) 100%
+  );
+}
+
+/* ── Content layout ── */
+.content {
+  position: relative;
+  z-index: 10;
+  flex: 1;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 5rem 2rem 4rem;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+/* ── Left column ── */
+.left {
+  flex: 0 0 54%;
+  max-width: 54%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+.brandLabel {
+  display: inline-block;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  color: #EF4444;
+  text-transform: uppercase;
+}
+
+.headline {
+  font-size: clamp(2.5rem, 4.5vw, 3.75rem);
+  font-weight: 700;
+  line-height: 1.05;
+  color: #F5EFE6;
+  margin: 0;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+}
+
+.subtitle {
+  font-size: 0.9375rem;
+  line-height: 1.7;
+  color: rgba(245, 239, 230, 0.62);
+  max-width: 400px;
+  margin: 0;
+  font-weight: 400;
+}
+
+/* ── CTA row ── */
+.ctaRow {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 0.25rem;
+}
+
+.downloadBtn {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.875rem 1.875rem;
+  background: #EF4444;
+  color: #ffffff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  border-radius: 9999px;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 150ms ease, transform 100ms ease, box-shadow 150ms ease;
+  box-shadow: 0 4px 20px rgba(239, 68, 68, 0.3);
+
+  &:hover {
+    background: #DC2626;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(239, 68, 68, 0.4);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+/* App Store / Google Play badges */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  padding: 0.5625rem 1.0625rem;
+  background: rgba(245, 239, 230, 0.07);
+  border: 1px solid rgba(245, 239, 230, 0.2);
+  border-radius: 10px;
+  color: #F5EFE6;
+  text-decoration: none;
+  transition: background 150ms ease, border-color 150ms ease;
+  min-width: 128px;
+
+  &:hover {
+    background: rgba(245, 239, 230, 0.12);
+    border-color: rgba(245, 239, 230, 0.35);
+  }
+}
+
+.badgeText {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.badgeSmall {
+  font-size: 0.5625rem;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  opacity: 0.75;
+}
+
+.badgeLarge {
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+/* ── Trust row ── */
+.trustRow {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.avatarStack {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 9999px;
+  border: 2.5px solid rgba(20, 17, 15, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  flex-shrink: 0;
+  position: relative;
+
+  &:not(:first-child) {
+    margin-left: -10px;
+  }
+}
+
+.stars {
+  color: #F59E0B;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  line-height: 1;
+}
+
+.trustLabel {
+  font-size: 0.75rem;
+  color: rgba(245, 239, 230, 0.6);
+  font-weight: 400;
+  margin-top: 0.2rem;
+  line-height: 1.3;
+}
+
+/* ── Right column — phone ── */
+.right {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 1rem;
+}
+
+.phoneWrapper {
+  position: relative;
+  filter: drop-shadow(0 32px 64px rgba(0, 0, 0, 0.65));
+}
+
+.phone {
+  width: 100%;
+  height: auto;
+  max-width: 300px;
+  object-fit: contain;
+  border-radius: 32px;
+}
+
+/* ── Responsive ── */
+@media (max-width: 960px) {
+  .content {
+    flex-direction: column-reverse;
+    padding: 3rem 1.5rem 2.5rem;
+    text-align: center;
+  }
+
+  .left {
+    flex: none;
+    max-width: 100%;
+    align-items: center;
+  }
+
+  .subtitle {
+    max-width: 480px;
+    text-align: center;
+  }
+
+  .ctaRow {
+    justify-content: center;
+  }
+
+  .trustRow {
+    justify-content: center;
+  }
+
+  .right {
+    width: 100%;
+    padding-top: 0;
+  }
+
+  .phone {
+    max-width: 220px;
+  }
+}
+
+@media (max-width: 480px) {
+  .headline {
+    font-size: 2.25rem;
+  }
+
+  .ctaRow {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+
+    a {
+      justify-content: center;
+    }
+  }
+
+  .phone {
+    max-width: 180px;
+  }
+}

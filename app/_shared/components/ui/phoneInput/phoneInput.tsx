@@ -2,7 +2,8 @@
 
 import React, { useId, useState } from 'react';
 import PhoneInputReact from 'react-phone-number-input';
-import type { Country, E164Number } from 'react-phone-number-input';
+import type { Country } from 'react-phone-number-input';
+type E164Number = string;
 import 'react-phone-number-input/style.css';
 import styles from './phoneInput.module.scss';
 
@@ -59,7 +60,7 @@ export const PhoneInput = ({
         <PhoneInputReact
           id={inputId}
           value={value}
-          onChange={onChange}
+          onChange={onChange as ((value?: string) => void)}
           defaultCountry={defaultCountry}
           countries={countries}
           placeholder={placeholder}
