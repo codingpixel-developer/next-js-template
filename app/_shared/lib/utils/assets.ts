@@ -25,7 +25,11 @@ export const getFontUrl = (name: string, format: string = 'woff2'): string => {
 /**
  * Generate placeholder image with specified dimensions
  */
-export const getPlaceholderImage = (width: number, height: number, text?: string): string => {
+export const getPlaceholderImage = (
+  width: number,
+  height: number,
+  text?: string,
+): string => {
   const label = text || `${width}x${height}`;
   return `https://placehold.co/${width}x${height}/3b82f6/ffffff?text=${encodeURIComponent(label)}`;
 };
@@ -33,7 +37,12 @@ export const getPlaceholderImage = (width: number, height: number, text?: string
 /**
  * Optimize image URL (for external image CDNs)
  */
-export const optimizeImage = (url: string, width?: number, height?: number, quality = 80): string => {
+export const optimizeImage = (
+  url: string,
+  width?: number,
+  height?: number,
+  quality = 80,
+): string => {
   // This is a placeholder implementation
   // Replace with your actual image optimization service
   const params = new URLSearchParams();

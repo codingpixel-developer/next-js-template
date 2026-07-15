@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { useEffect } from "react";
-import { Button } from "@/app/_shared/components/ui/button/button";
+import { useEffect } from 'react';
+import { Button } from '@/app/_shared/components/ui/button/button';
 
 export default function Error({
   error,
@@ -12,7 +12,7 @@ export default function Error({
 }) {
   useEffect(() => {
     // Log the error to an error reporting service
-    console.error("Application error:", error);
+    console.error('Application error:', error);
   }, [error]);
 
   return (
@@ -37,14 +37,14 @@ export default function Error({
           Something went wrong!
         </h2>
         <p className="text-[var(--color-text-secondary)] mb-6">
-          {error.message || "An unexpected error occurred. Please try again."}
+          {error.message || 'An unexpected error occurred. Please try again.'}
         </p>
         <div className="flex flex-col gap-3">
           <Button onClick={reset} variant="primary" size="lg">
             Try again
           </Button>
           <Button
-            onClick={() => (window.location.href = "/")}
+            onClick={() => (window.location.href = '/')}
             variant="outline"
             size="lg"
           >

@@ -33,9 +33,13 @@ const PROTECTED_SET = new Set(PROTECTED_ROUTES);
 const AUTH_SET = new Set(AUTH_ROUTES);
 
 // Generic route matcher helper
-const matchesRoute = (pathname: string, exactSet: Set<string>, prefixes: readonly string[]): boolean => {
+const matchesRoute = (
+  pathname: string,
+  exactSet: Set<string>,
+  prefixes: readonly string[],
+): boolean => {
   if (exactSet.has(pathname)) return true;
-  return prefixes.some(route => pathname.startsWith(`${route}/`));
+  return prefixes.some((route) => pathname.startsWith(`${route}/`));
 };
 
 // Check if a route is public

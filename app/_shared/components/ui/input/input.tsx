@@ -5,7 +5,10 @@ import styles from './input.module.scss';
 
 type InputSize = 'sm' | 'md' | 'lg';
 
-interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'> {
+interface InputProps extends Omit<
+  React.InputHTMLAttributes<HTMLInputElement>,
+  'size'
+> {
   label?: string;
   error?: string;
   helpText?: string;
@@ -28,7 +31,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
       id,
       ...props
     },
-    ref
+    ref,
   ) => {
     const generatedId = useId();
     const inputId = id || generatedId;
@@ -61,10 +64,18 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
             id={inputId}
             className={inputClasses}
             aria-invalid={error ? 'true' : 'false'}
-            aria-describedby={error ? `${inputId}-error` : helpText ? `${inputId}-help` : undefined}
+            aria-describedby={
+              error
+                ? `${inputId}-error`
+                : helpText
+                  ? `${inputId}-help`
+                  : undefined
+            }
             {...props}
           />
-          {rightIcon && <span className={styles['right-icon']}>{rightIcon}</span>}
+          {rightIcon && (
+            <span className={styles['right-icon']}>{rightIcon}</span>
+          )}
         </div>
         {error && (
           <span id={`${inputId}-error`} className={styles.error} role="alert">
@@ -78,7 +89,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
         )}
       </div>
     );
-  }
+  },
 );
 
 Input.displayName = 'Input';

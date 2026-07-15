@@ -25,7 +25,7 @@ export async function POST(request: Request) {
         }
         return NextResponse.json(
           { success: false, message: 'Invalid credentials' },
-          { status: 401 }
+          { status: 401 },
         );
 
       case 'refresh':
@@ -41,7 +41,7 @@ export async function POST(request: Request) {
         }
         return NextResponse.json(
           { success: false, message: 'Invalid refresh token' },
-          { status: 401 }
+          { status: 401 },
         );
 
       case 'logout':
@@ -53,13 +53,13 @@ export async function POST(request: Request) {
       default:
         return NextResponse.json(
           { success: false, message: 'Invalid action' },
-          { status: 400 }
+          { status: 400 },
         );
     }
   } catch (error) {
     return NextResponse.json(
       { success: false, message: 'Internal server error' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

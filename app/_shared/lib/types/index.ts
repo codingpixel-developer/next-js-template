@@ -48,7 +48,8 @@ export interface RegisterCredentials {
 export type Theme = 'light' | 'dark' | 'system';
 
 // Button types
-export type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger';
+export type ButtonVariant =
+  'primary' | 'secondary' | 'outline' | 'ghost' | 'danger';
 export type ButtonSize = 'sm' | 'md' | 'lg';
 
 // Input types
@@ -87,7 +88,14 @@ export interface PaginatedResponse<T> {
 export interface FormField {
   name: string;
   label: string;
-  type: 'text' | 'email' | 'password' | 'number' | 'textarea' | 'select' | 'checkbox';
+  type:
+    | 'text'
+    | 'email'
+    | 'password'
+    | 'number'
+    | 'textarea'
+    | 'select'
+    | 'checkbox';
   placeholder?: string;
   required?: boolean;
   options?: { label: string; value: string }[];

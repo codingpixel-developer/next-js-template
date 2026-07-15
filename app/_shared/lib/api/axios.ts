@@ -1,7 +1,15 @@
 'use client';
 
-import axios, { AxiosError, AxiosInstance, InternalAxiosRequestConfig } from 'axios';
-import { getCookie, setCookie, removeCookie } from '@/app/_shared/lib/utils/storage';
+import axios, {
+  AxiosError,
+  AxiosInstance,
+  InternalAxiosRequestConfig,
+} from 'axios';
+import {
+  getCookie,
+  setCookie,
+  removeCookie,
+} from '@/app/_shared/lib/utils/storage';
 
 // Create axios instance
 const axiosInstance: AxiosInstance = axios.create({
@@ -47,14 +55,16 @@ axiosInstance.interceptors.request.use(
   },
   (error) => {
     return Promise.reject(error);
-  }
+  },
 );
 
 // Response interceptor for token refresh
 axiosInstance.interceptors.response.use(
   (response) => response,
   async (error: AxiosError) => {
-    const originalRequest = error.config as InternalAxiosRequestConfig & { _retry?: boolean };
+    const originalRequest = error.config as InternalAxiosRequestConfig & {
+      _retry?: boolean;
+    };
 
     if (!originalRequest) {
       return Promise.reject(error);
@@ -92,7 +102,7 @@ axiosInstance.interceptors.response.use(
       // Call refresh token endpoint
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/refresh`,
-        { refreshToken }
+        { refreshToken },
       );
 
       const { token: newToken, refreshToken: newRefreshToken } = response.data;
@@ -123,14 +133,15 @@ axiosInstance.interceptors.response.use(
     } finally {
       isRefreshing = false;
     }
-  }
+  },
 );
 
 export default axiosInstance;
 
 // API client methods
 export const apiClient = {
-  get: <T>(url: string, params?: object) => axiosInstance.get<T>(url, { params }),
+  get: <T>(url: string, params?: object) =>
+    axiosInstance.get<T>(url, { params }),
   post: <T>(url: string, data?: object) => axiosInstance.post<T>(url, data),
   put: <T>(url: string, data?: object) => axiosInstance.put<T>(url, data),
   patch: <T>(url: string, data?: object) => axiosInstance.patch<T>(url, data),

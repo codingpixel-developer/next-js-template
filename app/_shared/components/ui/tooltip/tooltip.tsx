@@ -1,6 +1,11 @@
 'use client';
 
-import React, { useState, useRef, useEffect, useSyncExternalStore } from 'react';
+import React, {
+  useState,
+  useRef,
+  useEffect,
+  useSyncExternalStore,
+} from 'react';
 import styles from './tooltip.module.scss';
 
 type TooltipPosition = 'top' | 'bottom' | 'left' | 'right';
@@ -32,7 +37,11 @@ export const Tooltip = ({
   const triggerRef = useRef<HTMLDivElement>(null);
 
   // Use useSyncExternalStore to detect client-side hydration
-  const isClient = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
+  const isClient = useSyncExternalStore(
+    subscribe,
+    getSnapshot,
+    getServerSnapshot,
+  );
 
   useEffect(() => {
     return () => {
@@ -77,7 +86,9 @@ export const Tooltip = ({
           role="tooltip"
         >
           <div className={styles['tooltip-inner']}>{content}</div>
-          <span className={`${styles['tooltip-arrow']} ${styles[`tooltip-arrow--${position}`]}`} />
+          <span
+            className={`${styles['tooltip-arrow']} ${styles[`tooltip-arrow--${position}`]}`}
+          />
         </div>
       )}
     </div>
