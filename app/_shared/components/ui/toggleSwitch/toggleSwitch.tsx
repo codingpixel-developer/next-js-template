@@ -5,7 +5,7 @@ import styles from './toggleSwitch.module.scss';
 
 interface ToggleSwitchProps extends Omit<
   React.InputHTMLAttributes<HTMLInputElement>,
-  'type'
+  'type' | 'size'
 > {
   label?: string;
   error?: string;
