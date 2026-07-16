@@ -27,13 +27,18 @@ export const registerSchema = Yup.object().shape({
     .matches(emailRegex, 'Invalid email address')
     .required('Email is required'),
   password: Yup.string()
-    .matches(passwordRegex, 'Password must contain at least 8 characters, one uppercase, one lowercase, and one number')
+    .matches(
+      passwordRegex,
+      'Password must contain at least 8 characters, one uppercase, one lowercase, and one number',
+    )
     .required('Password is required'),
   confirmPassword: Yup.string()
     .oneOf([Yup.ref('password')], 'Passwords must match')
     .required('Confirm password is required'),
-  termsAccepted: Yup.boolean()
-    .oneOf([true], 'You must accept the terms and conditions'),
+  termsAccepted: Yup.boolean().oneOf(
+    [true],
+    'You must accept the terms and conditions',
+  ),
 });
 
 // Forgot password schema
@@ -46,7 +51,10 @@ export const forgotPasswordSchema = Yup.object().shape({
 // Reset password schema
 export const resetPasswordSchema = Yup.object().shape({
   password: Yup.string()
-    .matches(passwordRegex, 'Password must contain at least 8 characters, one uppercase, one lowercase, and one number')
+    .matches(
+      passwordRegex,
+      'Password must contain at least 8 characters, one uppercase, one lowercase, and one number',
+    )
     .required('Password is required'),
   confirmPassword: Yup.string()
     .oneOf([Yup.ref('password')], 'Passwords must match')
@@ -68,8 +76,14 @@ export const profileSchema = Yup.object().shape({
 export const changePasswordSchema = Yup.object().shape({
   currentPassword: Yup.string().required('Current password is required'),
   newPassword: Yup.string()
-    .matches(passwordRegex, 'Password must contain at least 8 characters, one uppercase, one lowercase, and one number')
-    .notOneOf([Yup.ref('currentPassword')], 'New password must be different from current password')
+    .matches(
+      passwordRegex,
+      'Password must contain at least 8 characters, one uppercase, one lowercase, and one number',
+    )
+    .notOneOf(
+      [Yup.ref('currentPassword')],
+      'New password must be different from current password',
+    )
     .required('New password is required'),
   confirmNewPassword: Yup.string()
     .oneOf([Yup.ref('newPassword')], 'Passwords must match')
@@ -96,8 +110,12 @@ export const contactSchema = Yup.object().shape({
 // Types
 export type LoginFormValues = Yup.InferType<typeof loginSchema>;
 export type RegisterFormValues = Yup.InferType<typeof registerSchema>;
-export type ForgotPasswordFormValues = Yup.InferType<typeof forgotPasswordSchema>;
+export type ForgotPasswordFormValues = Yup.InferType<
+  typeof forgotPasswordSchema
+>;
 export type ResetPasswordFormValues = Yup.InferType<typeof resetPasswordSchema>;
 export type ProfileFormValues = Yup.InferType<typeof profileSchema>;
-export type ChangePasswordFormValues = Yup.InferType<typeof changePasswordSchema>;
+export type ChangePasswordFormValues = Yup.InferType<
+  typeof changePasswordSchema
+>;
 export type ContactFormValues = Yup.InferType<typeof contactSchema>;

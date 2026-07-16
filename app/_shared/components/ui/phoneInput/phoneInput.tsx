@@ -2,13 +2,15 @@
 
 import React, { useId, useState } from 'react';
 import PhoneInputReact from 'react-phone-number-input';
-import type { Country, E164Number } from 'react-phone-number-input';
+import type { Country } from 'react-phone-number-input';
 import 'react-phone-number-input/style.css';
 import styles from './phoneInput.module.scss';
 
+type PhoneValue = string | undefined;
+
 interface PhoneInputProps {
-  value?: E164Number | undefined;
-  onChange?: (value: E164Number | undefined) => void;
+  value?: PhoneValue;
+  onChange?: (value: PhoneValue) => void;
   label?: string;
   error?: string;
   helperText?: string;
@@ -47,19 +49,25 @@ export const PhoneInput = ({
     .filter(Boolean)
     .join(' ');
 
+  const handleChange = (val: PhoneValue) => {
+    onChange?.(val);
+  };
+
   return (
     <div className={wrapperClasses}>
       {label && (
         <label htmlFor={inputId} className={styles['phone-input-label']}>
           {label}
-          {required && <span className={styles['phone-input-required']}>*</span>}
+          {required && (
+            <span className={styles['phone-input-required']}>*</span>
+          )}
         </label>
       )}
       <div className={styles['phone-input-container']}>
         <PhoneInputReact
           id={inputId}
           value={value}
-          onChange={onChange}
+          onChange={handleChange}
           defaultCountry={defaultCountry}
           countries={countries}
           placeholder={placeholder}
@@ -71,12 +79,20 @@ export const PhoneInput = ({
           className={styles['phone-input']}
           aria-invalid={error ? 'true' : 'false'}
           aria-describedby={
-            error ? `${inputId}-error` : helperText ? `${inputId}-helper` : undefined
+            error
+              ? `${inputId}-error`
+              : helperText
+                ? `${inputId}-helper`
+                : undefined
           }
         />
       </div>
       {error && (
-        <span id={`${inputId}-error`} className={styles['phone-input-error']} role="alert">
+        <span
+          id={`${inputId}-error`}
+          className={styles['phone-input-error']}
+          role="alert"
+        >
           {error}
         </span>
       )}

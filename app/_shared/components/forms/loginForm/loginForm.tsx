@@ -1,7 +1,10 @@
 'use client';
 
 import { useFormik } from 'formik';
-import { loginSchema, type LoginFormValues } from '@/app/_shared/lib/validations/schemas';
+import {
+  loginSchema,
+  type LoginFormValues,
+} from '@/app/_shared/lib/validations/schemas';
 import { Input } from '@/app/_shared/components/ui/input/input';
 import { Button } from '@/app/_shared/components/ui/button/button';
 import { useAuth } from '@/app/_shared/lib/hooks/useAuth';
@@ -23,11 +26,15 @@ export function LoginForm({ callbackUrl = '/dashboard' }: LoginFormProps) {
       rememberMe: false,
     },
     validationSchema: loginSchema,
+    // Validate on blur and submit only, not on every keystroke.
+    validateOnChange: false,
     onSubmit: async (values, { setSubmitting, setErrors }) => {
       try {
         // Mock login - replace with actual API call
-        const mockToken = 'mock-token-' + Math.random().toString(36).substring(7);
-        const mockRefreshToken = 'mock-refresh-' + Math.random().toString(36).substring(7);
+        const mockToken =
+          'mock-token-' + Math.random().toString(36).substring(7);
+        const mockRefreshToken =
+          'mock-refresh-' + Math.random().toString(36).substring(7);
 
         await login(mockToken, mockRefreshToken, {
           id: '1',
@@ -59,7 +66,11 @@ export function LoginForm({ callbackUrl = '/dashboard' }: LoginFormProps) {
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           value={formik.values.email}
-          error={formik.touched.email && formik.errors.email ? formik.errors.email : undefined}
+          error={
+            formik.touched.email && formik.errors.email
+              ? formik.errors.email
+              : undefined
+          }
           required
         />
 
@@ -72,7 +83,11 @@ export function LoginForm({ callbackUrl = '/dashboard' }: LoginFormProps) {
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           value={formik.values.password}
-          error={formik.touched.password && formik.errors.password ? formik.errors.password : undefined}
+          error={
+            formik.touched.password && formik.errors.password
+              ? formik.errors.password
+              : undefined
+          }
           required
         />
       </div>
@@ -86,7 +101,9 @@ export function LoginForm({ callbackUrl = '/dashboard' }: LoginFormProps) {
             onChange={formik.handleChange}
             className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
           />
-          <span className="text-sm text-[var(--color-text-secondary)]">Remember me</span>
+          <span className="text-sm text-[var(--color-text-secondary)]">
+            Remember me
+          </span>
         </label>
 
         <Link

@@ -11,6 +11,7 @@ npm run dev       # Dev server at localhost:3000
 npm run build     # Production build
 npm run start     # Start production server (run build first)
 npm run lint      # ESLint check
+npm run format    # Format with Prettier
 ```
 
 ---
@@ -21,6 +22,7 @@ npm run lint      # ESLint check
 - **Tailwind CSS v4** + SCSS modules (hybrid styling)
 - **Redux Toolkit** + redux-persist
 - **next-themes** · Formik + Yup · Axios
+- **TanStack Query** — server state / data fetching. Client `QueryProvider` (`app/_shared/components/providers/QueryProvider.tsx`) wraps the app in `app/layout.tsx`. Use `useQuery`/`useMutation` (with Axios) in client components.
 
 All shared code lives under `app/_shared/`. Use `@/app/_shared/` for all imports from shared folders.
 
@@ -30,18 +32,19 @@ All shared code lives under `app/_shared/`. Use `@/app/_shared/` for all imports
 
 Load the appropriate skill file for your task. Each file is self-contained and focused.
 
-| Task                                                          | Skill file                                              |
-| ------------------------------------------------------------- | ------------------------------------------------------- |
-| Understand project structure, add pages, configure Next.js    | `.claude/skills/architecture/SKILL.md`                   |
-| Use or create UI components (Button, Modal, Input, etc.)      | `.claude/skills/components/SKILL.md`                     |
-| Apply styles, work with CSS variables, Tailwind, SCSS         | `.claude/skills/styling/SKILL.md`                        |
-| Implement auth, protect routes, work with tokens/API          | `.claude/skills/auth/SKILL.md`                           |
-| Add Redux state, create slices, use hooks                     | `.claude/skills/state/SKILL.md`                          |
-| Navigate between pages, add new routes, update access control | `.claude/skills/routes/SKILL.md`                         |
-| Follow naming conventions and component size rules            | `.claude/rules/code-standards/SKILL.md`                  |
-| Add images/icons/fonts, use Next.js Image component           | `.claude/rules/assets/SKILL.md`                          |
-| Generate a multi-stage Dockerfile for this Next.js app        | `.claude/skills/write-dockerfile/SKILL.md`               |
-| Create a GitHub Actions workflow to build + deploy via SSH    | `.claude/skills/github-workflow-docker-deploy/SKILL.md`  |
+| Task                                                                  | Skill file                                              |
+| --------------------------------------------------------------------- | ------------------------------------------------------- |
+| Understand project structure, add pages, configure Next.js            | `.claude/skills/architecture/SKILL.md`                  |
+| Use or create UI components (Button, Modal, Input, etc.)              | `.claude/skills/components/SKILL.md`                    |
+| Apply styles, work with CSS variables, Tailwind, SCSS                 | `.claude/skills/styling/SKILL.md`                       |
+| Implement auth, protect routes, work with tokens/API                  | `.claude/skills/auth/SKILL.md`                          |
+| Add Redux state, create slices, use hooks                             | `.claude/skills/state/SKILL.md`                         |
+| Navigate between pages, add new routes, update access control         | `.claude/skills/routes/SKILL.md`                        |
+| Work with error.tsx / global-error.tsx, error boundaries, fallback UI | `.claude/skills/error-handling/SKILL.md`                |
+| Follow naming conventions and component size rules                    | `.claude/rules/code-standards/SKILL.md`                 |
+| Add images/icons/fonts, use Next.js Image component                   | `.claude/rules/assets/SKILL.md`                         |
+| Generate a multi-stage Dockerfile for this Next.js app                | `.claude/skills/write-dockerfile/SKILL.md`              |
+| Create a GitHub Actions workflow to build + deploy via SSH            | `.claude/skills/github-workflow-docker-deploy/SKILL.md` |
 
 ---
 
@@ -54,3 +57,4 @@ Load the appropriate skill file for your task. Each file is self-contained and f
 5. **Naming** — All component folders and files use **camelCase** (e.g. `fileUpload/fileUpload.tsx`).
 6. **Imports** — Always use `@/app/_shared/` prefix for shared code. Never use relative `../../` paths.
 7. **Modals & Dialogs** — Always create a dedicated, separate component file for every modal or dialog (e.g. `confirmDeleteModal/confirmDeleteModal.tsx`). Never inline modal or dialog content inside a parent component.
+8. **Error boundaries** — `app/error.tsx` (segment) and `app/global-error.tsx` (root layout) render the shared `ErrorFallback`. Add a nested `error.tsx` to scope recovery; catch event-handler/async errors locally and surface via toast (boundaries don't catch those).

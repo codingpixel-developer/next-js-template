@@ -15,6 +15,10 @@ A complete, production-ready Next.js template with authentication, form validati
 - **Axios** with token refresh and request queue
 - **Authentication** with middleware protection
 - **Route groups** for organized code structure
+- **TanStack Query** for server-state data fetching and caching (client `QueryProvider` in the root layout)
+- **Error boundaries** — `error.tsx` (segment) and `global-error.tsx` (root layout) with a shared fallback
+- **Formik validates on blur** (`validateOnChange: false`)
+- **Husky git hooks** — lint-staged + Prettier, commitlint, build on pre-push
 
 ## Project Structure
 
@@ -137,11 +141,7 @@ export const PROTECTED_ROUTES = [
 Add routes that don't require authentication to `PUBLIC_ROUTES`:
 
 ```typescript
-export const PUBLIC_ROUTES = [
-  ROUTES.HOME,
-  ROUTES.LOGIN,
-  ROUTES.REGISTER,
-];
+export const PUBLIC_ROUTES = [ROUTES.HOME, ROUTES.LOGIN, ROUTES.REGISTER];
 ```
 
 ### Auth Hooks
@@ -255,6 +255,7 @@ const user = await apiClient.post('/users', { name: 'John' });
 ### Token Refresh
 
 The axios instance automatically:
+
 - Adds auth tokens to requests
 - Refreshes expired tokens
 - Queues requests during token refresh
@@ -265,7 +266,10 @@ The axios instance automatically:
 Redux Toolkit is configured for global state:
 
 ```typescript
-import { useAppDispatch, useAppSelector } from '@/app/_shared/lib/hooks/useRedux';
+import {
+  useAppDispatch,
+  useAppSelector,
+} from '@/app/_shared/lib/hooks/useRedux';
 import { login, logout } from '@/app/_shared/lib/store/slices/authSlice';
 
 function MyComponent() {
@@ -292,6 +296,7 @@ import { Button } from '@/app/_shared/components/ui/button/button';
 ```
 
 Props:
+
 - `variant`: 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger'
 - `size`: 'sm' | 'md' | 'lg'
 - `isLoading`: boolean
@@ -312,6 +317,7 @@ import { Input } from '@/app/_shared/components/ui/input/input';
 ```
 
 Props:
+
 - `label`: string
 - `error`: string
 - `helpText`: string
@@ -366,6 +372,7 @@ import { images } from '@/app/_shared/assets/images';
 ### Component Size Limit
 
 Component files must **never exceed 300-350 lines** of code. If a component grows beyond this limit:
+
 - Extract sub-components into separate files
 - Move logic to custom hooks in `app/_shared/lib/hooks/`
 - Split large forms into field components
