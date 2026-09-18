@@ -9,7 +9,8 @@ import { Accordion } from '@/app/_shared/components/ui/accordion/accordion';
 import { Alert } from '@/app/_shared/components/ui/alert/alert';
 import { Badge } from '@/app/_shared/components/ui/badge/badge';
 import { Checkbox } from '@/app/_shared/components/ui/checkbox/checkbox';
-import { Dropdown } from '@/app/_shared/components/ui/dropdown/dropdown';
+import { DropdownExamples } from '@/app/_shared/components/examples/dropdownExamples';
+import { DateTimePickerExamples } from '@/app/_shared/components/examples/dateTimePickerExamples';
 import { FileUpload } from '@/app/_shared/components/ui/fileUpload/fileUpload';
 import { Pagination } from '@/app/_shared/components/ui/pagination/pagination';
 import { PhoneInput } from '@/app/_shared/components/ui/phoneInput/phoneInput';
@@ -203,21 +204,14 @@ function ComponentShowcase() {
             <h3 className="text-xl font-semibold text-[var(--color-text-primary)] mb-6">
               Dropdown
             </h3>
-            <Dropdown
-              trigger={<Button variant="outline">Open Menu</Button>}
-              align="left"
-            >
-              <Dropdown.Item onClick={() => console.log('View')}>
-                View Profile
-              </Dropdown.Item>
-              <Dropdown.Item onClick={() => console.log('Settings')}>
-                Settings
-              </Dropdown.Item>
-              <Dropdown.Divider />
-              <Dropdown.Item destructive onClick={() => console.log('Delete')}>
-                Delete Account
-              </Dropdown.Item>
-            </Dropdown>
+            <DropdownExamples />
+          </section>
+
+          <section className="p-6 rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-secondary)]">
+            <h3 className="text-xl font-semibold text-[var(--color-text-primary)] mb-6">
+              Date and time pickers
+            </h3>
+            <DateTimePickerExamples />
           </section>
 
           {/* Tooltip Section */}
