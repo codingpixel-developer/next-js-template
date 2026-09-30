@@ -14,16 +14,16 @@ The workflow has two jobs:
 
 No migration step — this is a pure frontend Next.js app with no database.
 
-## Step 1: Ask the User
+## Step 1: Resolve Deployment Details
 
-Before writing any workflow, ask these four questions one at a time:
+Read existing deployment files and project configuration first. Ask for any missing values together:
 
 1. **Target environment** — staging or production?
 2. **Path to the `.env` file on the server** — e.g. `/home/deploy/my-app/.env`
 3. **App name** — what is the name of this project? (e.g. `my-app`) — used as the Docker container name
 4. **Port number** — what port does the app listen on? (e.g. `3000`) — used in the `-p` host mapping
 
-Use the answers to fill in the placeholders below.
+Use the resolved values to fill in the placeholders below.
 
 | Answer     | Branch trigger | GitHub Environment name | Env file path     |
 | ---------- | -------------- | ----------------------- | ----------------- |
@@ -185,15 +185,15 @@ nano /path/to/app/.env         # paste and fill in values from .env.example
 | Mistake                                          | Fix                                                                           |
 | ------------------------------------------------ | ----------------------------------------------------------------------------- |
 | Using `latest` tag only                          | SHA + branch tags are pushed; rollbacks need a specific tag                   |
-| Hardcoding the env file path                     | Always ask the user for the path — it varies per server setup                 |
+| Hardcoding the env file path                     | Read existing deployment configuration; ask if the path is still unknown      |
 | Naming the env file `.env.staging` on the server | Always name it `.env`; the environment is implied by which server it lives on |
 | Storing `.env` in the repo                       | Keep it on the server only; never commit it                                   |
 | Forgetting `environment:` on the deploy job      | Without it, GitHub uses repo-level secrets, not environment-scoped ones       |
 
 ## File Creation
 
-After all questions are answered and placeholders are filled in, write the workflow file:
+After resolving the values and placeholders, write the workflow file:
 
 - **`.github/workflows/deploy-<environment>.yml`** — the full workflow above with all placeholders replaced
 
-Use the Write tool. Create the `.github/workflows/` directory if it does not exist.
+Use available file editing tools. Create the `.github/workflows/` directory if needed. Check workflow syntax and report the result.

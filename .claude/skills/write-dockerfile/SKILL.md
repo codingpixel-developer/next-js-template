@@ -9,27 +9,27 @@ description: Use when creating or updating a Dockerfile for this Next.js project
 
 This project uses `output: "standalone"` in `next.config.ts`, which produces a self-contained `.next/standalone/` bundle. The Docker build has two stages: a `builder` stage that runs `next build`, and a `production` stage that copies only the standalone output and serves it with `node server.js`.
 
-## Step 0: Ask the User
+## Step 0: Resolve Configuration
 
-Before writing any files, ask these two questions one at a time:
+Read project configuration first. Ask for any missing values together:
 
 1. **App name** — what is the name of this project? (e.g. `my-app`) — used as the Docker container name and in example commands
 2. **Port number** — what port should the app listen on? (default: `3000`) — used in `EXPOSE`, `ENV PORT`, and the `-p` host mapping
 
-Use the answers to replace `<APP_NAME>` and `<PORT>` throughout before writing any files.
+Use the resolved values to replace `<APP_NAME>` and `<PORT>` throughout before writing any files.
 
 ## Key Facts About This Project
 
-| Detail           | Value                                                              |
-| ---------------- | ------------------------------------------------------------------ |
-| Node version     | 22 (Alpine)                                                        |
-| Build command    | `npm run build` → `next build`                                     |
-| Build output     | `.next/standalone/` (self-contained bundle, set via `next.config`) |
-| Start command    | `node server.js` (inside standalone dir)                           |
-| Default port     | `3000`                                                             |
-| Static assets    | `.next/static/` and `public/` must be copied manually             |
-| Env files        | Not baked in — injected at runtime via `--env-file`               |
-| No migrations    | Pure frontend app, no database                                     |
+| Detail        | Value                                                              |
+| ------------- | ------------------------------------------------------------------ |
+| Node version  | 22 (Alpine)                                                        |
+| Build command | `npm run build` → `next build`                                     |
+| Build output  | `.next/standalone/` (self-contained bundle, set via `next.config`) |
+| Start command | `node server.js` (inside standalone dir)                           |
+| Default port  | `3000`                                                             |
+| Static assets | `.next/static/` and `public/` must be copied manually              |
+| Env files     | Not baked in — injected at runtime via `--env-file`                |
+| No migrations | Pure frontend app, no database                                     |
 
 ## Dockerfile
 
@@ -86,6 +86,7 @@ coverage
 **Standalone output must be enabled** — confirm `next.config.ts` has `output: "standalone"`. This project already has it set. Without it, the multi-stage pattern above will not work.
 
 **Three COPY steps are required in production stage:**
+
 1. `.next/standalone` → the runnable app with its own `node_modules`
 2. `.next/static` → JS chunks, CSS, and other static assets
 3. `public/` → favicon, robots.txt, and any public-served files
@@ -104,21 +105,21 @@ docker run --env-file .env.production -p <PORT>:<PORT> <APP_NAME>
 
 ## Common Mistakes
 
-| Mistake                                        | Fix                                                                 |
-| ---------------------------------------------- | ------------------------------------------------------------------- |
-| Not copying `.next/static`                     | Styles and JS bundles will be missing — always copy it              |
-| Not copying `public/`                          | favicon, robots.txt, and static files will 404                      |
-| Missing `HOSTNAME=0.0.0.0`                     | Container runs but is unreachable — port mapping won't work         |
-| Using `next start` as CMD                      | Requires full Next.js install; use `node server.js` in standalone   |
-| Copying `node_modules` from builder            | Standalone bundle includes its own — no extra copy needed           |
-| Forgetting `output: "standalone"` in config    | Build won't produce `.next/standalone/`; check `next.config.ts`     |
-| Baking `.env.*` into the image                 | Never. Inject at runtime via `--env-file`                           |
+| Mistake                                     | Fix                                                               |
+| ------------------------------------------- | ----------------------------------------------------------------- |
+| Not copying `.next/static`                  | Styles and JS bundles will be missing — always copy it            |
+| Not copying `public/`                       | favicon, robots.txt, and static files will 404                    |
+| Missing `HOSTNAME=0.0.0.0`                  | Container runs but is unreachable — port mapping won't work       |
+| Using `next start` as CMD                   | Requires full Next.js install; use `node server.js` in standalone |
+| Copying `node_modules` from builder         | Standalone bundle includes its own — no extra copy needed         |
+| Forgetting `output: "standalone"` in config | Build won't produce `.next/standalone/`; check `next.config.ts`   |
+| Baking `.env.*` into the image              | Never. Inject at runtime via `--env-file`                         |
 
 ## File Creation
 
-After all questions are answered and placeholders are filled in, write these two files to the project root:
+After resolving the values and placeholders, write these two files to the project root:
 
 1. **`Dockerfile`** — the full two-stage Dockerfile above with `<PORT>` replaced
 2. **`.dockerignore`** — the `.dockerignore` block above (no substitutions needed)
 
-Use the Write tool for both files.
+Use available file editing tools for both files. Verify the image build when Docker is available; report any check that could not run.
