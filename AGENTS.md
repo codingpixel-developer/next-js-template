@@ -48,7 +48,7 @@ Load the appropriate skill file for your task. Each file is self-contained and f
 
 ---
 
-## Critical Rules (always apply, regardless of task)
+## Rules
 
 1. **Routes** — Never hardcode route strings. Always use `ROUTES.*` from `app/_shared/lib/config/routes.ts`.
 2. **Assets** — Never reference asset paths directly as strings. All assets (images, icons, fonts) live in `app/_shared/assets/` and must be exported from their `index.ts` before use. The `public/` folder is only for static files served at the root (e.g. `favicon.ico`).
